@@ -1,9 +1,11 @@
 package com.example.ebanking;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -104,10 +106,37 @@ public class MainActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), login.class);
-                startActivity(intent);
-                finish();
+                {
+
+                    AlertDialog.Builder logoutDialog = new AlertDialog.Builder(MainActivity.this);
+                    logoutDialog.setTitle("Logout?");
+                    logoutDialog.setIcon(R.drawable.baseline_logout_24);
+                    logoutDialog.setMessage("Are you sure you want to Logout?");
+
+                    // positive, negative and neutral here is related to positions only
+                    logoutDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // logout
+                            FirebaseAuth.getInstance().signOut();
+                            Intent intent = new Intent(getApplicationContext(), login.class);
+                            startActivity(intent);
+                            finishAffinity();
+                        }
+                    });
+
+                    logoutDialog.setNegativeButton("No", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+
+                    logoutDialog.show(); // very IMPORTANT
+
+                }
+
             }
         });
     }
