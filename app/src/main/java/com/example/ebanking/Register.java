@@ -161,7 +161,7 @@ public class Register extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful())
                                             {
-                                                Intent intent = new Intent(Register.this, MainActivity.class);
+                                                Intent intent = new Intent(Register.this, MyChatsActivity.class);
                                                 startActivity(intent);
                                                 finish();
                                                 progressBar.setVisibility(View.GONE);
