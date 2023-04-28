@@ -34,7 +34,7 @@ public class MyChatsActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     RecyclerView mainUserRecyclerView;
-    com.example.ebanking.UserAdapter adapter;
+    UserAdapter adapter;
 
     ArrayList<Users> userArrayList;
     String senderUid;
@@ -45,6 +45,13 @@ public class MyChatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_chats);
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if(getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // this will make the back button visible
+        }
         findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
 
         toolbar = findViewById(R.id.toolbar); // custom toolbar

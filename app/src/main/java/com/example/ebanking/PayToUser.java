@@ -138,7 +138,7 @@ public class PayToUser extends AppCompatActivity {
                         });
 
 
-                TransactionModel transactionModel = new TransactionModel(moneyDouble, senderUid, timestamp);
+                TransactionModel transactionModel = new TransactionModel(moneyDouble, senderUid, receiverUid, timestamp);
                 senderReference // In MyTransactions
                         .child("MyTransactions")
                         .push().setValue(transactionModel) // saving transaction message in sender room

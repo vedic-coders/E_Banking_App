@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyChatsActivity">
+    tools:context=".MyTransactions">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -15,10 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/appColor"
-            app:titleTextColor="@color/white"
-            app:title="Recent"
             android:theme="@style/AppTheme.ActionBarTheme"
-            app:menu="@menu/opt_menu"
+            app:titleTextColor="@color/white"
+            app:title="My Transactions"
             android:id="@+id/toolbar"
             >
 
@@ -27,7 +26,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainUserRecyclerView"
+        android:id="@+id/myTransactionsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/appbar"
@@ -45,8 +44,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_centerInParent="true"
-        android:visibility="visible"
         android:indeterminate="true"
         android:indeterminateDrawable="@drawable/progress_bar_design2"
-        />
+        android:visibility="visible" />
 </RelativeLayout>

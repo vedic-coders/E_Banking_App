@@ -2,14 +2,16 @@ package com.example.ebanking;
 
 public class TransactionModel {
     double amount;
-    String senderId;
+    String senderId, receiverId;
     long timeStamp;
 
-    public TransactionModel(double amount, String senderId, long timeStamp) {
+    public TransactionModel(double amount, String senderId, String receiverId, long timeStamp) {
         this.amount = amount;
         this.senderId = senderId;
+        this.receiverId = receiverId;
         this.timeStamp = timeStamp;
     }
+
     public TransactionModel()
     {}
 
@@ -27,6 +29,14 @@ public class TransactionModel {
 
     public void setSenderId(String senderId) {
         this.senderId = senderId;
+    }
+
+    public String getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 
     public long getTimeStamp() {

@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         myTransactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "My Transactions Clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, MyTransactions.class);
+                startActivity(intent);
             }
         });
     }
