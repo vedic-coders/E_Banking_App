@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "344951744508",
+    "project_id": "e-banking-21b68",
+    "storage_bucket": "e-banking-21b68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344951744508:android:66a2e403ec1321cca43479",
+        "android_client_info": {
+          "package_name": "com.example.ebanking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344951744508-t70ak4rm5df99lag4h3lvme51mhdqso7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWY5nwiGtA8cdsyqsoWUIKhyb04qIaUxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "344951744508-t70ak4rm5df99lag4h3lvme51mhdqso7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

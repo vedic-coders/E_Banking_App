@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">E Banking App</string>
+
+    <string name="account_balance">Account Balance</string>
+    <string name="balance_currency">\u20B9</string>
+    <string name="balance_amount">8,547.99</string>
+    <string name="rs">\u20A8</string>
+    <string name="Rs">\u20B9</string>
+    <string name="invite_your_friends_to_register_on_our_e_banking_application_and_made_their_own_account_for_fast_transactions_for_every_users_you_invite_you_can_earn_upto_100_rupess_so_why_are_you_waiting_for_just_go_and_click_on_refer_now">Invite Your Friends to register on our E-Banking Application and made their own account for fast transactions.For every users you invite ,you can earn upto 100 rupess. So why are you waiting for just go and click on Refer Now!</string>
+
+
+    <string name="userName">Mr. Xxx</string>
+    <string name="accountNumber">XXXX1234</string>
+    <string name="bankBalance">$69</string>
+    <string name="cardName">Master Card</string>
+    <string name="cardAccountNumber">abcd456787979</string>
+    <string name="cardBalance">$6969</string>
+    <string name="upiBalance">$169</string>
+    <string name="phoneNum">1234567890</string>
+    <string name="upiID">1234567890@upi.com</string>
+
+    <string-array name="ld_activityScreenTitles">
+        <item>Dashboard</item>
+        <item>My Account</item>
+        <item>Notications</item>
+        <item>Transactions</item>
+        <item />
+        <item>Log Out</item>
+    </string-array>
+
+
+
+</resources>
