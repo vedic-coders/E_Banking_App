@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ebanking.login;
+import com.example.ebanking.MainActivity;
+import com.example.ebanking.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -26,6 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Objects;
 
 public class Register extends AppCompatActivity {
 
@@ -38,7 +44,7 @@ public class Register extends AppCompatActivity {
     FirebaseStorage storage;
     Uri imageUri;
     String imageUriStr;
-   // ProgressBar progressBar;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +59,7 @@ public class Register extends AppCompatActivity {
         password2 = findViewById(R.id.confirm_password);
         signupBtn = findViewById(R.id.signupBtn);
         profilePic = findViewById(R.id.profilePic);
-      //  progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
 
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,13 +83,13 @@ public class Register extends AppCompatActivity {
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String emailStr = email.getText().toString().trim();
                 String userNameStr = userName.getText().toString().trim();
+                String emailStr = email.getText().toString().trim();
                 String passwordStr = password.getText().toString().trim();
                 String password2Str = password2.getText().toString().trim();
 
 
-                if(TextUtils.isEmpty(emailStr) || TextUtils.isEmpty(userNameStr) || TextUtils.isEmpty(passwordStr) || TextUtils.isEmpty(password2Str))
+                if(TextUtils.isEmpty(userNameStr) || TextUtils.isEmpty(emailStr) || TextUtils.isEmpty(passwordStr) || TextUtils.isEmpty(password2Str))
                 {
                     Toast.makeText(Register.this, "Valid Field Missing", Toast.LENGTH_SHORT).show();
                 }
@@ -97,15 +103,15 @@ public class Register extends AppCompatActivity {
                 }
                 else
                 {
-                   // progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
                     auth.createUserWithEmailAndPassword(emailStr, passwordStr).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
                                 String id = task.getResult().getUser().getUid();
-                                DatabaseReference databaseReference = database.getReference().child("user").child(id);
-                                StorageReference storageReference = storage.getReference().child("upload").child(id);
+                                StorageReference storageReference = storage.getReference().child("Upload").child(id);//Profile Pic Uploading
+                                DatabaseReference databaseReference = database.getReference().child("AppUser").child(id).child("UserData");
 
                                 if(imageUri != null)
                                 {
@@ -118,6 +124,23 @@ public class Register extends AppCompatActivity {
                                                     @Override
                                                     public void onSuccess(Uri uri) {
                                                         imageUriStr = uri.toString();
+                                                        Users user = new Users(id, emailStr, userNameStr, passwordStr, imageUriStr);
+                                                        databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>()
+                                                        {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful())
+                                                                {
+                                                                    Intent intent = new Intent(Register.this, MainActivity.class);
+                                                                    startActivity(intent);
+                                                                    finish();
+                                                                    progressBar.setVisibility(View.GONE);
+                                                                }
+                                                                else {
+                                                                    Toast.makeText(Register.this, "Error in creating user", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
                                                     }
                                                 });
                                             }
@@ -129,30 +152,30 @@ public class Register extends AppCompatActivity {
                                 }
                                 else
                                 {
-                                    imageUriStr = "https://firebasestorage.googleapis.com/v0/b/e-banking-21b68.appspot.com/o/userDefaultImage.png?alt=media&token=0edd4309-dc04-4a0a-8e32-be5284e6e8c2";
+                                    imageUriStr = "https://firebasestorage.googleapis.com/v0/b/chat-app-70dc8.appspot.com/o/userDefaultImage.png?alt=media&token=2113f5de-c75d-4c3d-bf3d-a2da4fde3eae";
+                                    Users user = new Users(id, emailStr, userNameStr, passwordStr, imageUriStr);
+                                    databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>()
+                                    {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful())
+                                            {
+                                                Intent intent = new Intent(Register.this, MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                                progressBar.setVisibility(View.GONE);
+                                            }
+                                            else {
+                                                Toast.makeText(Register.this, "Error in creating user", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                                 }
-                                Users user = new Users(id, emailStr, userNameStr, passwordStr, imageUriStr);
-                                databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>()
-                                {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful())
-                                        {
-                                            Intent intent = new Intent(Register.this, MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                        else {
-                                            Toast.makeText(Register.this, "Error in creating user", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
                             }
                             else
                             {
                                 Toast.makeText(Register.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                         //   progressBar.setVisibility(View.GONE);
                         }
 
                     });

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FCF5FF"
+    tools:context=".ChatWindow">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar"
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/appColor"
+            android:theme="@style/AppTheme.ActionBarTheme"
+            app:titleTextColor="@color/white"
+            android:id="@+id/toolbar"
+            >
+
+            <LinearLayout
+                android:id="@+id/llLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profilePic"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_camera_24"
+                    android:layout_marginBottom="0dp"
+                    />
+                <TextView
+                    android:id="@+id/receiverName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:text="The Comic Coder"
+                    android:textColor="@color/white"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llBottom"
+        android:layout_below="@id/appbar"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/llBottom"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        >
+        <androidx.cardview.widget.CardView
+            android:layout_width="60dp"
+            android:layout_height="45dp"
+            app:cardCornerRadius="22.5dp"
+            android:layout_marginStart="5dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#8134CD"
+            >
+
+            <TextView
+                android:id="@+id/pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/appColor"
+                android:gravity="center_vertical"
+                android:text="PAY"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:cardCornerRadius="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+
+            <EditText
+                android:id="@+id/writeMsg"
+                android:layout_width="match_parent"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:textSize="22dp"
+                android:hint="Type Message"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sendBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:cardCornerRadius="22.5dp"
+            android:layout_marginEnd="5dp"
+
+            android:layout_gravity="center"
+            android:backgroundTint="#8134CD"
+            >
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_send_24"/>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</RelativeLayout>

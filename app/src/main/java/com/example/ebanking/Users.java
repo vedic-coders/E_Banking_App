@@ -4,22 +4,28 @@ import android.widget.EditText;
 
 public class Users {
 
-    String id, email, userName, password, imageUri;
 
-    public Users(String id, String email, String userName, String password, String imageUri) {
-        this.id = id;
+    public String userId, email, userName, password, profilePic;
+    long timeStamp;
+
+    public Users(String id, String email, String userName, String password, String profilePic) {
+        this.userId = id;
         this.email = email;
         this.userName = userName;
         this.password = password;
-        this.imageUri = imageUri;
+        this.profilePic = profilePic;
     }
 
-    public String getId() {
-        return id;
+    public Users() {
+
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getEmail() {
@@ -46,11 +52,19 @@ public class Users {
         this.password = password;
     }
 
-    public String getImageUri() {
-        return imageUri;
+    public String getProfilePic() {
+        return profilePic;
     }
 
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

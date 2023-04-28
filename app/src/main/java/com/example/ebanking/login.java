@@ -6,16 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ebanking.MainActivity;
+import com.example.ebanking.Register;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class login extends AppCompatActivity {
 
@@ -23,6 +27,19 @@ public class login extends AppCompatActivity {
     Button loginBtn;
     EditText email, password;
     FirebaseAuth auth;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = auth.getCurrentUser();
+        if(user != null)
+        {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +79,7 @@ public class login extends AppCompatActivity {
 
                                 } else {
                                     // If sign in fails
-                                    Toast.makeText(login.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(login.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
