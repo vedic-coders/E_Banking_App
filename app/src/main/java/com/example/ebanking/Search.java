@@ -84,6 +84,10 @@ public class Search extends AppCompatActivity {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             // Fetching Nodes with name IDs
                             Users user = dataSnapshot.child("UserData").getValue(Users.class);
+                            if(user == null)
+                            {
+                                break; // for avoiding null pointer exception
+                            }
                             String userName = user.getUserName().toLowerCase();
                             String email = user.getEmail().toLowerCase();
                             if (!senderUid.equals(user.getUserId()) && (userName.startsWith(searchText) || email.startsWith(searchText))) // this will not show same user

@@ -45,7 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Setting extends AppCompatActivity {
 
     CircleImageView profilePic;
-    EditText nameEditText, statusEditText;
+    EditText nameEditText;
     Uri imageUri;
     Button saveBtn;
     FirebaseAuth auth;
@@ -236,16 +236,10 @@ public class Setting extends AppCompatActivity {
     void saveNameStatus() {
         // here we have to check if name is range [1, 20] characters and status is in range [1, 35] characters
         String userName = nameEditText.getText().toString().trim();
-        String status = statusEditText.getText().toString().trim();
-
         if (TextUtils.isEmpty(userName)) {
             nameEditText.setError("Name can't be empty");
             return;
-        } else if (TextUtils.isEmpty(status)) {
-            statusEditText.setError("Status can't be empty");
-            return;
         }
-
         user.userName = userName;
         userDataReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

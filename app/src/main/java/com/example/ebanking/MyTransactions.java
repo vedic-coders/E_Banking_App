@@ -93,7 +93,7 @@ public class MyTransactions extends AppCompatActivity {
                             TransactionViewDetail detail = new TransactionViewDetail();
                             if (transactionSender.equals(transactionReceiver)) {// ADDED BY SELF
                                 Users user = mapToUser.get(transactionSender);
-                                detail.name = "ADDED TO ACCOUNT";
+                                detail.name = "Added to Account";
                                 detail.email = user.email;
                                 detail.profilePic = user.profilePic;
                                 detail.amount = transactionModel.amount;

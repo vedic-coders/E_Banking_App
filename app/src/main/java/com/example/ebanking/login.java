@@ -34,7 +34,7 @@ public class login extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
         if(user != null)
         {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MyChatsActivity.class);
             startActivity(intent);
             finish();
         }
@@ -73,7 +73,7 @@ public class login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), MyChatsActivity.class);
                                     startActivity(intent);
                                     finish();
 

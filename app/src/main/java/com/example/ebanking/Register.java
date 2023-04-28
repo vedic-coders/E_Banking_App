@@ -112,6 +112,7 @@ public class Register extends AppCompatActivity {
                                 String id = task.getResult().getUser().getUid();
                                 StorageReference storageReference = storage.getReference().child("Upload").child(id);//Profile Pic Uploading
                                 DatabaseReference databaseReference = database.getReference().child("AppUser").child(id).child("UserData");
+                                database.getReference().child("AppUser").child(id).child("AccountBalance").setValue(0); // Initial Account Balance
 
                                 if(imageUri != null)
                                 {
@@ -131,7 +132,7 @@ public class Register extends AppCompatActivity {
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if(task.isSuccessful())
                                                                 {
-                                                                    Intent intent = new Intent(Register.this, MainActivity.class);
+                                                                    Intent intent = new Intent(Register.this, MyChatsActivity.class);
                                                                     startActivity(intent);
                                                                     finish();
                                                                     progressBar.setVisibility(View.GONE);

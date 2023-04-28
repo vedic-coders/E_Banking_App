@@ -3,7 +3,9 @@ package com.example.ebanking;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -32,6 +34,7 @@ public class PayToUser extends AppCompatActivity {
     ImageView profilePic;
     TextView userName, email, pay;
     EditText amount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +81,7 @@ public class PayToUser extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String money = amount.getText().toString();
-                if(TextUtils.isEmpty(money))
-                {
+                if (TextUtils.isEmpty(money)) {
                     Toast.makeText(PayToUser.this, "Payment must be at least ₹1", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -87,77 +89,132 @@ public class PayToUser extends AppCompatActivity {
                 double moneyDouble = Double.parseDouble(money);
                 Date date = new Date();
                 long timestamp = date.getTime();
-                MsgModel messageModel = new MsgModel("", senderUid, timestamp);
-                messageModel.setAmount(moneyDouble);
-                senderReference // In chats
-                        .child("MyChats")
-                        .child(senderRoom)
-                        .child("Messages")
-                        .push().setValue(messageModel) // saving transaction message in sender room
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                senderReference
+                        .child("AccountBalance")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                double senderActBal = snapshot.getValue(double.class);
+                                if (senderActBal < moneyDouble) {
+                                    Toast.makeText(PayToUser.this, "Insufficient Balance", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                database.getReference()
+                                        .child("AppUser").child(senderUid)
+                                        .child("AccountBalance")
+                                        .setValue(senderActBal - moneyDouble);
+                                // Deduction of Money From Sender
+
                                 receiverReference
-                                        .child("MyChats")
-                                        .child(receiverRoom)
-                                        .child("Messages")
-                                        .push().setValue(messageModel)  // saving transaction message in receiver room
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        .child("AccountBalance")
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                // below code for storing lastMessageTimeStamp
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {// Adding Money to beneficiary account
+                                                double receiverActBal = snapshot.getValue(double.class);
                                                 database.getReference()
                                                         .child("AppUser")
-                                                        .child(senderUid)
+                                                        .child(receiverUid)
+                                                        .child("AccountBalance")
+                                                        .setValue(receiverActBal + moneyDouble).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                            }
+                                                        });
+
+
+                                                MsgModel messageModel = new MsgModel("", senderUid, timestamp);
+                                                messageModel.setAmount(moneyDouble);
+                                                senderReference // In chats
                                                         .child("MyChats")
                                                         .child(senderRoom)
-                                                        .child("LastMessageTimeStamp")
-                                                        .setValue(timestamp)
+                                                        .child("Messages")
+                                                        .push().setValue(messageModel) // saving transaction message in sender room
                                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
-                                                                database.getReference()
-                                                                        .child("AppUser")
-                                                                        .child(receiverUid)
+                                                                receiverReference
                                                                         .child("MyChats")
                                                                         .child(receiverRoom)
-                                                                        .child("LastMessageTimeStamp")
-                                                                        .setValue(timestamp)
+                                                                        .child("Messages")
+                                                                        .push().setValue(messageModel)  // saving transaction message in receiver room
                                                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                             @Override
                                                                             public void onComplete(@NonNull Task<Void> task) {
+                                                                                // below code for storing lastMessageTimeStamp
+                                                                                database.getReference()
+                                                                                        .child("AppUser")
+                                                                                        .child(senderUid)
+                                                                                        .child("MyChats")
+                                                                                        .child(senderRoom)
+                                                                                        .child("LastMessageTimeStamp")
+                                                                                        .setValue(timestamp)
+                                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                            @Override
+                                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                                database.getReference()
+                                                                                                        .child("AppUser")
+                                                                                                        .child(receiverUid)
+                                                                                                        .child("MyChats")
+                                                                                                        .child(receiverRoom)
+                                                                                                        .child("LastMessageTimeStamp")
+                                                                                                        .setValue(timestamp)
+                                                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                            @Override
+                                                                                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                                                                            }
+                                                                                                        });
+                                                                                            }
+                                                                                        });
 
                                                                             }
                                                                         });
                                                             }
                                                         });
 
+
+                                                TransactionModel transactionModel = new TransactionModel(moneyDouble, senderUid, receiverUid, timestamp);
+                                                senderReference // In MyTransactions
+                                                        .child("MyTransactions")
+                                                        .push().setValue(transactionModel) // saving transaction message in sender room
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                receiverReference
+                                                                        .child("MyTransactions")
+                                                                        .push().setValue(transactionModel)  // saving transaction message in receiver room
+                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                                                Intent intent = new Intent(getApplicationContext(), PopUpTransactionActivity.class);
+                                                                                startActivity(intent);
+                                                                                finish();
+
+
+                                                                            }
+                                                                        });
+                                                            }
+                                                        });
                                             }
-                                        });
-                            }
-                        });
 
-
-                TransactionModel transactionModel = new TransactionModel(moneyDouble, senderUid, receiverUid, timestamp);
-                senderReference // In MyTransactions
-                        .child("MyTransactions")
-                        .push().setValue(transactionModel) // saving transaction message in sender room
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                receiverReference
-                                        .child("MyTransactions")
-                                        .push().setValue(transactionModel)  // saving transaction message in receiver room
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-
-                                                finish();
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
                                             }
                                         });
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
                             }
                         });
+
 
             }
         });

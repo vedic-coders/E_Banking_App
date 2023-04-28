@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="@+id/name"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profilePic"
         android:layout_width="150dp"
         android:layout_height="150dp"

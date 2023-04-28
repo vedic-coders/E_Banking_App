@@ -94,10 +94,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₹ "
+                    android:text="₹"
                     android:textColor="@color/black"
                     android:textSize="50dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="normal"/>
                 <EditText
                     android:id="@+id/amount"
                     android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textSize="50dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="normal"/>
 
             </LinearLayout>
 
